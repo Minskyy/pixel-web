@@ -1,0 +1,47 @@
+.section {
+  border-radius: 30px;
+}
+
+.cover {
+  position: relative;
+  z-index: 1;
+  padding: 160px 0 50px;
+  color: white;
+  // background-image: url(https://preview.uideck.com/items/saaspal/assets/img/hero/hero-bg.svg);
+  background-image: linear-gradient(90deg, #014bec 0%, #02f1ee 100%);
+  background-repeat: no-repeat;
+  background-position: top center;
+  min-height: 80vh;
+  height: auto;
+}
+
+.pixelImg {
+  cursor: pointer;
+  float: right;
+  width: 550px;
+  box-shadow: 23px 17px 56px 5px black;
+  // box-shadow: 7px 8px 20px 6px black;
+}
+
+.banner {
+  display: block !important;
+  position: absolute;
+  height: 35%;
+  width: 100%;
+  bottom: 0;
+  z-index: 2;
+  background: url(https://goosehonk.org/wp-content/themes/icos/assets/images/header-shape-zinnia.png)
+    100% 100% no-repeat;
+  background-size: cover;
+}
+
+.bigtext {
+  h1 {
+    font-size: 60px;
+    margin-bottom: 35px;
+  }
+
+  p {
+    font-size: 18px;
+  }
+}

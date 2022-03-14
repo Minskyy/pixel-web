@@ -1,0 +1,19 @@
+<div #cursor class="cursor" [hidden]="!drawModeEnabled"></div>
+<div
+  tabindex="1"
+  (keyup)="onKeyUp($event)"
+  (keydown)="onKeyDown($event)"
+  style="margin: 20px auto auto auto; overflow: hidden; height: 500px; width: 1000px;"
+>
+<canvas #fullCanvas width="1000" height="500" hidden></canvas>
+<canvas
+    #viewPort
+    width="1000"
+    height="500"
+    (mousemove)="onMouseOver($event)"
+    (mouseup)="onMouseUp()"
+    (mousedown)="onMouseDown()"
+    (click)="onMouseClick($event)"
+    (wheel)="onMouseWheel($event)"    
+  ></canvas>
+</div>

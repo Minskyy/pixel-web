@@ -1,0 +1,29 @@
+:host {
+  display: flex;
+}
+
+canvas {
+  border: 1px solid black;
+  image-rendering: pixelated;
+  cursor: pointer;
+}
+
+.cursor {
+  z-index: 999;
+  position: fixed;
+  background: #000000;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow: 0 0 20px #000000, 0 0 60px #000000, 0 0 100px #000000;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+.placeholder {
+  overflow: hidden;
+  height: 500px;
+  width: 1000px;
+  margin: 50px auto auto auto;
+}

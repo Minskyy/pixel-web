@@ -1,0 +1,39 @@
+
+<header>
+  <nav>
+    <div class="row">
+      <div class="col-md-1 d-flex">
+        <a href="/" class="header-logo">
+          <span class="header-logo-icon"></span>
+          <h1 class="header-logo-text">Pixel</h1>
+        </a>
+      </div>
+      <div class="col-md-10">
+        <div class="container">
+          <ul ngbNav #nav="ngbNav" class="nav-tabs" [(activeId)]="activeId" >
+            <li ngbNavItem="/home">
+              <a ngbNavLink [routerLink]="['/home']" >Home</a>
+            </li>
+            <li ngbNavItem="/pixel">
+              <a ngbNavLink [routerLink]="['/pixel']" routerLinkActive="active">Pixel</a>
+            </li>
+          </ul>
+          <div [ngbNavOutlet]="nav"></div>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <div class="displayAddress" *ngIf="connectedAccount;else displayAddress">{{connectedAccount.substr(0, 10)+'...'}} </div>
+        <ng-template #displayAddress>
+            <div class="btn btn-primary" [hidden]="isLoading" (click)="onClickConnect()">Connect</div>
+        </ng-template>
+        
+        
+      </div>
+    </div>
+    
+  </nav>
+</header>
+<body>
+<router-outlet></router-outlet>
+  
+</body>
