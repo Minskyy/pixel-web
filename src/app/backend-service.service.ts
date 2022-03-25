@@ -14,7 +14,7 @@ export class BackendServiceService {
   }
 
   getBoardBuffer() {
-    return this.http.get('/board', {
+    return this.http.get('https://pixel-bsc-api.herokuapp.com/board', {
       responseType: 'arraybuffer',
     });
     // .data
