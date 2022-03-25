@@ -9,7 +9,7 @@ export class BackendServiceService {
   constructor(private http: HttpClient) {}
 
   commitPixels(pixelsObj: { [key: number]: number }) {
-    return this.http.post(`${environment.baseUrl}board/drawPixels/`, pixelsObj, {
+    return this.http.post(`${environment.baseUrl}/board/drawPixels/`, pixelsObj, {
       headers: { 'Content-Type': 'application/json' },
     });
   }
