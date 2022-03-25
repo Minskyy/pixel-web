@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AxiosError } from 'axios';
 import Web3 from 'web3';
@@ -8,6 +8,7 @@ import * as fromApp from './store/app.actions';
 import { HttpClient } from '@angular/common/http';
 import { defer, from } from 'rxjs';
 import { AbiItem } from 'web3-utils';
+import { environment } from 'src/environments/environment';
 
 declare const window: any;
 
@@ -67,11 +68,11 @@ export class ContractService {
   };
 
   public getNftsInWallet = (address: string) => {
-    return this.http.get<number[]>(`/board/getNftsInWallet/${address}`);
+    return this.http.get<number[]>(`${environment.baseUrl}/board/getNftsInWallet/${address}`);
   };
 
   public getTokenPrice = (tokenAddress: string) => {
-    return this.http.get<number>(`/board/getTokenPrice/${tokenAddress}`);
+    return this.http.get<number>(`${environment.baseUrl}/board/getTokenPrice/${tokenAddress}`);
   };
 
   public openMetamask = async () => {
