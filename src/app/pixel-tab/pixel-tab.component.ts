@@ -60,12 +60,15 @@ export class PixelTabComponent implements OnInit, OnDestroy {
         this.pixelTabFacade.changeBrushSize(parseInt(val));
       });
 
-    // this.pixelTabFacade.getNftsInWallet();
+    this.pixelTabFacade.getNftsInWallet();
 
-    // this.pixelTabFacade.getTokenPrice();
+    this.pixelTabFacade.getTokenPrice();
 
     this.pixelTabSub = this.pixelTab$.subscribe((state) => {
       this.nftIDsInWallet = [1,2,3,4];
+      // this.nftIDsInWallet = state.nftsInWallet;
+      console.log('this', this.nftIDsInWallet);
+      
       this.tokenPrice = state.tokenPrice.toFixed(3);
       this.nftPrice = (state.tokenPrice * 40).toFixed(3);
     });

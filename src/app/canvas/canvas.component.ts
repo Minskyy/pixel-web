@@ -111,6 +111,7 @@ export class CanvasComponent implements AfterViewInit, OnInit {
   cameraY: number = 0;
   cameraViewportWidth: number = 40;
   cameraViewportHeight: number = 20;
+  cursorSize: number = 20;
   aspectRatio: number = 2;
   alphavalue: number = 255;
 
@@ -447,6 +448,22 @@ export class CanvasComponent implements AfterViewInit, OnInit {
 
   onMouseWheel(event: WheelEvent) {
     this.cameraViewportHeight -= event.deltaY < 0 ? 1 : -1;
+    this.cursorSize = this.cameraViewportWidth
+
+    console.log('thisca', this.cameraViewportHeight);
+    console.log('thisWI', this.cameraViewportWidth);
+    
+    let sqSize = Math.floor(this.canvasWidth / this.cameraViewportWidth);
+
+    if(sqSize < 5) sqSize = 5;
+    if(sqSize > 25) sqSize = 30;
+
+    console.log('sqSize', sqSize);
+    console.log('this.brushSize', sqSize);
+
+    this.cursor.nativeElement.style.height = `${sqSize}px`;
+    this.cursor.nativeElement.style.width = `${sqSize}px`;
+
     this.cameraViewportWidth = this.cameraViewportHeight * this.aspectRatio;
 
     if (this.cameraViewportHeight < 7) this.cameraViewportHeight = 7;
