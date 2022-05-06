@@ -6,9 +6,9 @@ import {
   OnInit,
   HostListener,
   Input,
-} from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import axios from 'axios';
+} from "@angular/core";
+import { select, Store } from "@ngrx/store";
+import axios from "axios";
 import {
   animationFrameScheduler,
   defer,
@@ -16,15 +16,15 @@ import {
   Observable,
   pipe,
   Scheduler,
-} from 'rxjs';
-import { delay, map, take, takeWhile, tap } from 'rxjs/operators';
-import { ContractService } from '../contract-service.service';
-import * as fromCanvas from './store/canvas.actions';
-import * as fromRoot from '../store/root.reducer';
-import * as fromPixelTab from '../pixel-tab/store/pixel-tab.actions';
-import { BackendServiceService } from '../backend-service.service';
-import { PixelTabFacadeService } from '../pixel-tab/store/pixel-tab-facade.service';
-import { randomBytes } from 'crypto';
+} from "rxjs";
+import { delay, map, take, takeWhile, tap } from "rxjs/operators";
+import { ContractService } from "../contract-service.service";
+import * as fromCanvas from "./store/canvas.actions";
+import * as fromRoot from "../store/root.reducer";
+import * as fromPixelTab from "../pixel-tab/store/pixel-tab.actions";
+import { BackendServiceService } from "../backend-service.service";
+import { PixelTabFacadeService } from "../pixel-tab/store/pixel-tab-facade.service";
+import { randomBytes } from "crypto";
 
 declare let window: any;
 
@@ -39,32 +39,37 @@ interface PixelInfo {
 }
 
 @Component({
-  selector: 'app-canvas',
-  templateUrl: './canvas.component.html',
-  styleUrls: ['./canvas.component.scss'],
+  selector: "app-canvas",
+  templateUrl: "./canvas.component.html",
+  styleUrls: ["./canvas.component.scss"],
 })
 export class CanvasComponent implements AfterViewInit, OnInit {
   /** Template reference to the canvas element */
-  @ViewChild('fullCanvas') fullCanvas: ElementRef<HTMLCanvasElement>;
-  @ViewChild('viewPort') viewPort: ElementRef<HTMLCanvasElement>;
-  @ViewChild('cursor') cursor: ElementRef<HTMLCanvasElement>;
+  @ViewChild("fullCanvas") fullCanvas: ElementRef<HTMLCanvasElement>;
+  @ViewChild("viewPort") viewPort: ElementRef<HTMLCanvasElement>;
+  @ViewChild("cursor") cursor: ElementRef<HTMLCanvasElement>;
 
   @Input() nftIDsInWallet: number[] = [];
   @Input() drawModeEnabled: boolean = false;
   @Input() eraserMode: boolean = false;
 
-  @HostListener('window:resize', ['$event'])
+  @HostListener("window:resize", ["$event"])
   onResize() {
     this.setCanvasXY();
   }
 
+  @HostListener("window:scroll", ["$event"])
+  onScroll() {
+    this.setCanvasXY();
+  }
+
   /**
-   * We need to use this hostlistener instead of the mouse mouseup event, in order to also detect the event 
+   * We need to use this hostlistener instead of the mouse mouseup event, in order to also detect the event
    * when it happens outside of the canvas element
    */
   @HostListener("document:mouseup")
   clickedOut() {
-    this.isDragging = false;    
+    this.isDragging = false;
   }
 
   /** Canvas 2d context */
@@ -190,15 +195,15 @@ export class CanvasComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit() {
-    const fullCanvasContext = this.fullCanvas.nativeElement.getContext('2d');
-    const viewportContext = this.viewPort.nativeElement.getContext('2d');
+    const fullCanvasContext = this.fullCanvas.nativeElement.getContext("2d");
+    const viewportContext = this.viewPort.nativeElement.getContext("2d");
     if (
       !fullCanvasContext ||
       !(fullCanvasContext instanceof CanvasRenderingContext2D) ||
       !viewportContext ||
       !(viewportContext instanceof CanvasRenderingContext2D)
     ) {
-      throw new Error('Failed to get 2D context');
+      throw new Error("Failed to get 2D context");
     }
     this.fullCanvasContext = fullCanvasContext;
     this.viewportContext = viewportContext;
@@ -211,7 +216,7 @@ export class CanvasComponent implements AfterViewInit, OnInit {
     this.aspectRatio = this.canvasWidth / this.canvasHeight;
     this.setCanvasXY();
 
-    this.store.select('pixelTab').subscribe((state) => {
+    this.store.select("pixelTab").subscribe((state) => {
       const chosenColor = state.chosenColor;
       this.cursor.nativeElement.style.background = chosenColor;
       this.cursor.nativeElement.style.boxShadow = `0 0 20px ${chosenColor}, 0 0 60px ${chosenColor}, 0 0 100px ${chosenColor}`;
@@ -269,7 +274,7 @@ export class CanvasComponent implements AfterViewInit, OnInit {
     }
 
     for (const pixel of pixelsToModify) {
-      if(!this.ownedNftsIncludePixel(pixel)) continue;
+      if (!this.ownedNftsIncludePixel(pixel)) continue;
       pixelsToCommit = {
         ...pixelsToCommit,
         ...this.changePixelColor(pixel, colorComponents),
@@ -283,12 +288,11 @@ export class CanvasComponent implements AfterViewInit, OnInit {
     this.fullCanvasContext.putImageData(this.imgData, 0, 0);
   }
 
-  ownedNftsIncludePixel(pixel: Position){
+  ownedNftsIncludePixel(pixel: Position) {
     const pixelAreaIndex = this.getAreaIndexFromCanvasCoordinates(pixel);
 
     return this.nftIDsInWallet.includes(pixelAreaIndex);
   }
-
 
   /**
    * Changes the color of a given pixel
@@ -318,7 +322,7 @@ export class CanvasComponent implements AfterViewInit, OnInit {
 
   drawBoard = async () => {
     this.boardBuffer.pipe(take(2)).subscribe((buffer) => {
-      console.log('buf', buffer);
+      console.log("buf", buffer);
 
       // Uint8ClampedArray view of boardBuffer
       const clampedArray = new Uint8ClampedArray(buffer);
@@ -336,8 +340,8 @@ export class CanvasComponent implements AfterViewInit, OnInit {
   pixelBelongsToArea(pixel: Position, areaIndex: number): boolean {
     const areaCoordinates = this.getCanvasCoordinatesFromAreaIndex(areaIndex);
 
-    console.log('areaC', areaCoordinates);
-    console.log('pixel', pixel);
+    console.log("areaC", areaCoordinates);
+    console.log("pixel", pixel);
 
     return (
       areaCoordinates.x < pixel.x &&
@@ -375,9 +379,9 @@ export class CanvasComponent implements AfterViewInit, OnInit {
     );
 
     if (this.drawModeEnabled) {
-      this.cursor.nativeElement.style.top = event.y + 'px';
-      this.cursor.nativeElement.style.left = event.x + 'px';
-      this.cursor.nativeElement.style.display = 'block';
+      this.cursor.nativeElement.style.top = event.y + "px";
+      this.cursor.nativeElement.style.left = event.x + "px";
+      this.cursor.nativeElement.style.display = "block";
       if (this.isDragging) {
         this.paint(canvasHoveredPixel);
       }
@@ -411,16 +415,16 @@ export class CanvasComponent implements AfterViewInit, OnInit {
 
   onKeyDown(event: KeyboardEvent) {
     switch (event.key) {
-      case 'a':
+      case "a":
         this.leftArrowPressed = 1;
         break;
-      case 'd':
+      case "d":
         this.rightArrowPressed = 1;
         break;
-      case 'w':
+      case "w":
         this.upArrowPressed = 1;
         break;
-      case 's':
+      case "s":
         this.downArrowPressed = 1;
         break;
       default:
@@ -429,16 +433,16 @@ export class CanvasComponent implements AfterViewInit, OnInit {
 
   onKeyUp(event: KeyboardEvent) {
     switch (event.key) {
-      case 'a':
+      case "a":
         this.leftArrowPressed = 0;
         break;
-      case 'd':
+      case "d":
         this.rightArrowPressed = 0;
         break;
-      case 'w':
+      case "w":
         this.upArrowPressed = 0;
         break;
-      case 's':
+      case "s":
         this.downArrowPressed = 0;
         break;
 
@@ -476,12 +480,11 @@ export class CanvasComponent implements AfterViewInit, OnInit {
   }
 
   onMouseUp() {
-    console.log('up');
-    
+    console.log("up");
   }
-  
+
   onMouseDown() {
-    console.log('down');
+    console.log("down");
     this.isDragging = true;
   }
 
@@ -612,7 +615,7 @@ export class CanvasComponent implements AfterViewInit, OnInit {
     context: CanvasRenderingContext2D,
     width: number,
     height: number,
-    color: string = 'black'
+    color: string = "black"
   ) {
     context.fillStyle = color;
     context.strokeStyle = color;
@@ -664,7 +667,7 @@ export class CanvasComponent implements AfterViewInit, OnInit {
         this.fullCanvasContext,
         this.areaSize,
         this.areaSize,
-        'white'
+        "white"
       );
     });
   }
