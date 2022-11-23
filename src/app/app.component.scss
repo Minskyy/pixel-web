@@ -71,26 +71,23 @@ header {
 }
 
 .header-logo {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   color: white;
   text-decoration: none;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
+  align-items: center;
 }
 
 .header-logo-icon {
-  display: block;
-  width: 4rem;
-  height: 5rem;
+  width: 21px;
+  height: 21px;
   background-image: url("https://kottke.org/plus/misc/images/history-pixel.jpg");
   background-repeat: no-repeat;
-  background-position-x: 95%;
-  background-size: 30%;
-  background-position-y: 20%;
+  background-size: 100%;
+  border-radius: 30%;
 }
 
 .header-logo-text {
   font-size: 2rem;
+  margin-bottom: 0px;
+  margin-left: 5px;
 }
